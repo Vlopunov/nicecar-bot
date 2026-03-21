@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: var(--tg-theme-bg-color, #ffffff);
+  --text-color: var(--tg-theme-text-color, #1A1A1A);
+  --hint-color: var(--tg-theme-hint-color, #999999);
+  --link-color: var(--tg-theme-link-color, #B91C1C);
+  --button-color: var(--tg-theme-button-color, #B91C1C);
+  --button-text-color: var(--tg-theme-button-text-color, #ffffff);
+  --secondary-bg: var(--tg-theme-secondary-bg-color, #f5f5f5);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Skeleton loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--secondary-bg) 25%, #e0e0e0 50%, var(--secondary-bg) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Page transition */
+.page-enter {
+  opacity: 0;
+  transform: translateX(10px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 200ms, transform 200ms;
+}
