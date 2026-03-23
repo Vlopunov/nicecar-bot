@@ -37,6 +37,11 @@ async def lifespan(app: FastAPI):
         from app.bot.middlewares.auth import AuthMiddleware
         from app.bot.middlewares.throttle import ThrottleMiddleware
 
+        # Delete any existing webhook before polling
+        if bot:
+            await bot.delete_webhook(drop_pending_updates=True)
+            logger.info("Webhook deleted, starting polling")
+
         dp.message.middleware(ThrottleMiddleware())
         dp.message.middleware(AuthMiddleware())
 
