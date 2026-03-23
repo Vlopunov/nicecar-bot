@@ -17,6 +17,19 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting NiceCar Bot & API...")
 
+    # Create tables and seed data
+    try:
+        from app.database import engine, Base
+        from app.models import *  # noqa: F401,F403
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database tables created/verified")
+
+        from app.seed import seed
+        await seed()
+    except Exception as e:
+        logger.error(f"Database init error: {e}")
+
     bot_task = None
     if settings.BOT_TOKEN:
         from app.bot.bot import bot, dp
