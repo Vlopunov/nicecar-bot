@@ -67,6 +67,7 @@ export function DashboardPage() {
           { path: '/admin/portfolio', label: 'Портфолио', icon: '📸' },
           { path: '/admin/promotions', label: 'Акции', icon: '🎁' },
           { path: '/admin/broadcast', label: 'Рассылки', icon: '📢' },
+          { path: '/admin/faq', label: 'FAQ', icon: '❓' },
           { path: '/admin/analytics', label: 'Аналитика', icon: '📊' },
         ].map(item => (
           <button

@@ -23,6 +23,10 @@ import { PortfolioManagePage } from './pages/admin/PortfolioManagePage'
 import { PromotionsPage } from './pages/admin/PromotionsPage'
 import { BroadcastPage } from './pages/admin/BroadcastPage'
 import { AnalyticsPage } from './pages/admin/AnalyticsPage'
+import { FAQPage } from './pages/admin/FAQPage'
+
+// Guards
+import { AdminGuard } from './components/AdminGuard'
 
 function BackButtonHandler() {
   const navigate = useNavigate()
@@ -63,16 +67,17 @@ export default function App() {
           <Route path="/portfolio" element={<PortfolioPage />} />
 
           {/* Admin routes */}
-          <Route path="/admin" element={<DashboardPage />} />
-          <Route path="/admin/bookings" element={<BookingsPage />} />
-          <Route path="/admin/schedule" element={<SchedulePage />} />
-          <Route path="/admin/services" element={<ServicesManagePage />} />
-          <Route path="/admin/clients" element={<ClientsPage />} />
-          <Route path="/admin/clients/:id" element={<ClientDetailPage />} />
-          <Route path="/admin/portfolio" element={<PortfolioManagePage />} />
-          <Route path="/admin/promotions" element={<PromotionsPage />} />
-          <Route path="/admin/broadcast" element={<BroadcastPage />} />
-          <Route path="/admin/analytics" element={<AnalyticsPage />} />
+          <Route path="/admin" element={<AdminGuard><DashboardPage /></AdminGuard>} />
+          <Route path="/admin/bookings" element={<AdminGuard><BookingsPage /></AdminGuard>} />
+          <Route path="/admin/schedule" element={<AdminGuard><SchedulePage /></AdminGuard>} />
+          <Route path="/admin/services" element={<AdminGuard><ServicesManagePage /></AdminGuard>} />
+          <Route path="/admin/clients" element={<AdminGuard><ClientsPage /></AdminGuard>} />
+          <Route path="/admin/clients/:id" element={<AdminGuard><ClientDetailPage /></AdminGuard>} />
+          <Route path="/admin/portfolio" element={<AdminGuard><PortfolioManagePage /></AdminGuard>} />
+          <Route path="/admin/promotions" element={<AdminGuard><PromotionsPage /></AdminGuard>} />
+          <Route path="/admin/broadcast" element={<AdminGuard><BroadcastPage /></AdminGuard>} />
+          <Route path="/admin/analytics" element={<AdminGuard><AnalyticsPage /></AdminGuard>} />
+          <Route path="/admin/faq" element={<AdminGuard><FAQPage /></AdminGuard>} />
         </Routes>
       </div>
     </>

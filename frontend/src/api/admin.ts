@@ -18,6 +18,7 @@ export const adminApi = {
   createBroadcast: (data: any) => api.post<any>('/api/admin/broadcast', data),
   getCategories: () => api.get<any[]>('/api/admin/categories'),
   getServices: () => api.get<any[]>('/api/admin/services'),
+  updateService: (id: number, data: any) => api.put<any>(`/api/admin/services/${id}`, data),
   getFAQ: () => api.get<any[]>('/api/admin/faq'),
   createFAQ: (data: any) => api.post<any>('/api/admin/faq', data),
   updateFAQ: (id: number, data: any) => api.put<any>(`/api/admin/faq/${id}`, data),

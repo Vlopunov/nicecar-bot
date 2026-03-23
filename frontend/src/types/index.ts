@@ -57,6 +57,7 @@ export interface UserProfile {
   total_spent: number
   visit_count: number
   tags: string | null
+  is_admin: boolean
   created_at: string | null
 }
 
