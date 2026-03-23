@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
     # Create tables and seed data
     try:
         from app.database import engine, Base
-        from app.models import *  # noqa: F401,F403
+        import app.models  # noqa: F401 — register all models for metadata
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database tables created/verified")
