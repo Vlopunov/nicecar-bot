@@ -89,6 +89,9 @@ app.add_middleware(
 
 # Static files for uploads
 import os
+from pathlib import Path
+from fastapi.responses import FileResponse
+
 os.makedirs("uploads", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
@@ -96,6 +99,11 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "nicecar-bot"}
+
+# Serve frontend static files (built Vite app)
+STATIC_DIR = Path(__file__).parent.parent / "static"
+if STATIC_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=str(STATIC_DIR / "assets")), name="frontend-assets")
 
 
 # Include routers
@@ -133,6 +141,22 @@ app.include_router(admin_broadcast_router)
 app.include_router(admin_posts_router)
 app.include_router(admin_analytics_router)
 app.include_router(admin_faq_router)
+
+
+# SPA fallback — serve index.html for non-API routes
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    """Serve the frontend SPA for any non-API route."""
+    if STATIC_DIR.exists():
+        # Try to serve static file first
+        file_path = STATIC_DIR / full_path
+        if file_path.is_file():
+            return FileResponse(str(file_path))
+        # Fallback to index.html for SPA routing
+        index = STATIC_DIR / "index.html"
+        if index.exists():
+            return FileResponse(str(index))
+    return {"detail": "Not Found"}
 
 
 async def _send_reminders():

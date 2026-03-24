@@ -1,3 +1,14 @@
+### Stage 1: Build frontend ###
+FROM node:20-alpine AS frontend-build
+
+WORKDIR /frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ .
+ENV VITE_API_URL=""
+RUN npm run build
+
+### Stage 2: Python backend ###
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -8,6 +19,9 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend/ .
+
+# Copy built frontend into backend static dir
+COPY --from=frontend-build /frontend/dist /app/static
 
 RUN mkdir -p /app/uploads
 
